@@ -18,21 +18,21 @@ body{
 #startScreen{
   position:fixed;
   inset:0;
-  background:rgba(255,214,232,0.95);
+  background:rgba(255,214,232,0.96);
   display:flex;
   align-items:center;
   justify-content:center;
   z-index:9999;
 }
 #startScreen button{
-  padding:16px 34px;
+  padding:18px 40px;
   font-size:20px;
   border:none;
   border-radius:40px;
   background:#ff4d6d;
   color:white;
   cursor:pointer;
-  box-shadow:0 10px 25px rgba(255,77,109,.4);
+  box-shadow:0 12px 30px rgba(255,77,109,.45);
 }
 
 h1{
@@ -46,37 +46,42 @@ h1{
   color:#555;
 }
 
-/* HEART PAPER */
+/* 💖 BIG ROMANTIC HEART */
 .paper{
-  width:380px;
-  height:380px;
-  background:linear-gradient(135deg,#ff4d6d,#ff85a2);
+  width:460px;              /* ⬅️ MUCH BIGGER */
+  height:460px;
+  background:linear-gradient(135deg,#ff5f8f,#ff9acb);
   position:absolute;
   left:50%;
-  top:190px;
+  top:185px;
   transform:translateX(-50%);
-  padding:65px 40px;
-  box-shadow:0 20px 40px rgba(255,77,109,0.45);
+  padding:90px 55px;        /* ⬅️ TEXT SPACE */
+  box-shadow:0 25px 50px rgba(255,95,143,0.45);
   cursor:grab;
   user-select:none;
   touch-action:none;
   color:white;
 
-  clip-path:path("M190 50 C40 -40,-80 140,190 360 C460 140,340 -40,190 50 Z");
+  clip-path:path(
+    "M230 60
+     C70 -60,-120 180,230 430
+     C580 180,390 -60,230 60 Z"
+  );
 }
 
 .paper::before{
   content:"";
   position:absolute;
   inset:0;
-  background:radial-gradient(circle at top left,rgba(255,255,255,0.45),transparent);
+  background:radial-gradient(circle at top left,
+    rgba(255,255,255,0.45),transparent 60%);
   clip-path:inherit;
 }
 
 .paper p{
   text-align:center;
-  font-size:20px;
-  line-height:1.6;
+  font-size:22px;           /* ⬅️ BIGGER TEXT */
+  line-height:1.7;
   font-weight:500;
   position:relative;
   z-index:1;
@@ -84,17 +89,24 @@ h1{
 
 .paper:active{cursor:grabbing}
 
-/* BUTTONS */
+/* PROPOSAL BUTTONS */
 #proposal button{
-  padding:12px 26px;
-  margin:12px;
-  font-size:17px;
+  padding:14px 30px;
+  margin:14px;
+  font-size:18px;
   border:none;
-  border-radius:30px;
+  border-radius:35px;
   cursor:pointer;
 }
-#yes{background:#fff;color:#ff4d6d;font-weight:600}
-#no{background:rgba(255,255,255,0.7);color:#555}
+#yes{
+  background:white;
+  color:#ff4d6d;
+  font-weight:700;
+}
+#no{
+  background:rgba(255,255,255,0.7);
+  color:#555;
+}
 
 audio{display:none;}
 </style>
@@ -114,14 +126,14 @@ audio{display:none;}
   <p>
     Dear Bhavya ❤️<br><br>
     Jab bhi life thodi mushkil lagti hai,<br>
-    tumhari yaad sab easy kar deti hai.
+    tumhari yaad sab kuch easy kar deti hai.
   </p>
 </div>
 
 <div class="paper">
   <p>
-    Tumhari smile meri weakness hai,<br>
-    aur tum meri sabse strong feeling 💫
+    Tumhari smile meri sabse badi weakness hai,<br>
+    aur tum meri sabse strong feeling ho 💫
   </p>
 </div>
 
@@ -132,6 +144,7 @@ audio{display:none;}
   </p>
 </div>
 
+<!-- ✅ PROPOSAL LAST -->
 <div class="paper" id="proposal">
   <p>
     Will you be mine forever? 💍
@@ -149,7 +162,7 @@ const papers=[...document.querySelectorAll(".paper")];
 const music=document.getElementById("music");
 let dragging=null, ox=0, oy=0;
 
-/* STACK ORDER (proposal last) */
+/* 🔒 STACK ORDER — PROPOSAL LAST */
 papers.forEach((p,i)=>{
   p.style.zIndex = papers.length - i;
 });
@@ -160,7 +173,7 @@ document.getElementById("startBtn").onclick=()=>{
   document.getElementById("startScreen").style.display="none";
 };
 
-/* DRAG LOGIC */
+/* DRAG */
 papers.forEach(p=>{
   p.addEventListener("mousedown",startDrag);
   p.addEventListener("touchstart",startDrag,{passive:false});
@@ -186,7 +199,7 @@ function moveDrag(e){
 document.addEventListener("mouseup",()=>dragging=null);
 document.addEventListener("touchend",()=>dragging=null);
 
-/* PROPOSAL BUTTONS */
+/* PROPOSAL ACTIONS */
 yes.onclick=()=>alert("She said YES 💖✨");
 no.onclick=()=>alert("Think again 😏❤️");
 </script>
