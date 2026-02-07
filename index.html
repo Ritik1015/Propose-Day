@@ -1,167 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Bhavya ❤️</title>
+  <meta charset="UTF-8">
+  <title>For Bhavya ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body{
-  margin:0;
-  height:100vh;
-  background:#f6f1eb;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:Arial, sans-serif;
-}
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(120deg, #ffd6e8, #fff);
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+    }
 
-.paper{
-  position:absolute;
-  width:85%;
-  max-width:360px;
-  min-height:220px;
-  background:#fff;
-  padding:25px;
-  border-radius:8px;
-  box-shadow:0 15px 30px rgba(0,0,0,.25);
-  cursor:grab;
-  user-select:none;
-}
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+      color: #d63384;
+    }
 
-.paper:nth-child(1){transform:rotate(-4deg);}
-.paper:nth-child(2){transform:rotate(3deg);}
-.paper:nth-child(3){transform:rotate(-2deg);}
-.paper:nth-child(4){transform:rotate(2deg);}
+    #paper {
+      width: 300px;
+      height: 200px;
+      background: #fffdf5;
+      position: absolute;
+      top: 180px;
+      left: 40px;
+      padding: 20px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+      border-radius: 6px;
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
+    }
 
-#proposal{
-  display:none;
-  text-align:center;
-}
+    #paper:active {
+      cursor: grabbing;
+    }
 
-button{
-  padding:12px 24px;
-  border:none;
-  border-radius:25px;
-  font-size:16px;
-  margin:10px;
-  cursor:pointer;
-}
+    #paper p {
+      font-size: 18px;
+      line-height: 1.4;
+      color: #333;
+    }
 
-.yes{background:#ff4d6d;color:white;}
-.no{background:black;color:white;position:absolute;}
-</style>
+    #hint {
+      text-align: center;
+      margin-top: 10px;
+      color: #555;
+      font-size: 14px;
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
 
-<audio id="music" loop>
+<h1>Drag the paper 💌</h1>
+<div id="hint">(Click & hold, then move)</div>
+
+<div id="paper">
+  <p>
+    Dear Bhavya ❤️<br><br>
+    Har baar jab main muskurata hoon,<br>
+    uski wajah tum hoti ho.<br><br>
+    Will you be mine forever? 💍
+  </p>
+</div>
+
+<audio id="music" autoplay loop>
   <source src="song.mp3" type="audio/mpeg">
 </audio>
 
-<div class="paper">
-  <h2>Hey Bhavya ❤️</h2>
-  <p>Ek baat kehni thi…</p>
-</div>
-
-<div class="paper">
-  <p>
-    Jab se tum meri zindagi me aayi ho,<br>
-    sab kuch khoobsurat lagne laga hai 🌸
-  </p>
-</div>
-
-<div class="paper">
-  <p>
-    Tumhari muskaan meri sabse badi taqat hai 🫶
-  </p>
-</div>
-
-<div class="paper">
-  <p>
-    Isliye aaj ek sawaal poochna hai 💍
-  </p>
-</div>
-
-<div id="proposal">
-  <h1>Bhavya ❤️</h1>
-  <p>Will you be mine forever?</p>
-  <button class="yes" onclick="yes()">YES 😭</button>
-  <button class="no" id="no">NO 🙃</button>
-</div>
-
 <script>
-const papers = document.querySelectorAll(".paper");
-let topIndex = papers.length - 1;
+  const paper = document.getElementById("paper");
 
-papers.forEach((paper, i) => {
-  paper.style.zIndex = papers.length - i;
-
-  let startX = 0, startY = 0;
-  let moveX = 0, moveY = 0;
   let dragging = false;
+  let offsetX = 0;
+  let offsetY = 0;
 
-  const start = (x, y) => {
-    if (i !== topIndex) return;
+  // Mouse (Laptop)
+  paper.addEventListener("mousedown", function (e) {
     dragging = true;
-    startX = x - moveX;
-    startY = y - moveY;
-  };
+    offsetX = e.clientX - paper.offsetLeft;
+    offsetY = e.clientY - paper.offsetTop;
+  });
 
-  const move = (x, y) => {
+  document.addEventListener("mousemove", function (e) {
     if (!dragging) return;
-    moveX = x - startX;
-    moveY = y - startY;
-    paper.style.transform =
-      `translate(${moveX}px, ${moveY}px) rotate(${moveX / 12}deg)`;
-  };
+    paper.style.left = e.clientX - offsetX + "px";
+    paper.style.top = e.clientY - offsetY + "px";
+  });
 
-  const end = () => {
-    if (!dragging) return;
+  document.addEventListener("mouseup", function () {
     dragging = false;
+  });
 
-    if (Math.abs(moveX) > 120) {
-      paper.remove();
-      topIndex--;
-      if (topIndex < 0) showProposal();
-    } else {
-      moveX = moveY = 0;
-      paper.style.transform = "";
-    }
-  };
+  // Touch (Mobile)
+  paper.addEventListener("touchstart", function (e) {
+    dragging = true;
+    const touch = e.touches[0];
+    offsetX = touch.clientX - paper.offsetLeft;
+    offsetY = touch.clientY - paper.offsetTop;
+  });
 
-  // Mouse
-  paper.addEventListener("mousedown", e => start(e.clientX, e.clientY));
-  document.addEventListener("mousemove", e => move(e.clientX, e.clientY));
-  document.addEventListener("mouseup", end);
+  document.addEventListener("touchmove", function (e) {
+    if (!dragging) return;
+    const touch = e.touches[0];
+    paper.style.left = touch.clientX - offsetX + "px";
+    paper.style.top = touch.clientY - offsetY + "px";
+  });
 
-  // Touch
-  paper.addEventListener("touchstart", e =>
-    start(e.touches[0].clientX, e.touches[0].clientY)
-  );
-  paper.addEventListener("touchmove", e =>
-    move(e.touches[0].clientX, e.touches[0].clientY)
-  );
-  paper.addEventListener("touchend", end);
-});
-
-function showProposal(){
-  document.querySelectorAll(".paper").forEach(p => p.remove());
-  document.getElementById("proposal").style.display = "block";
-  document.getElementById("music").play();
-}
-
-function yes(){
-  document.getElementById("proposal").innerHTML =
-    "<h1>I Love You Bhavya ❤️</h1><p>Happy Propose Day 💐</p>";
-}
-
-const no = document.getElementById("no");
-no.addEventListener("mouseover", () => {
-  no.style.left = Math.random() * 80 + "vw";
-  no.style.top  = Math.random() * 80 + "vh";
-});
+  document.addEventListener("touchend", function () {
+    dragging = false;
+  });
 </script>
 
 </body>
