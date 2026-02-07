@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <title>For Bhavya ❤️</title>
+
+<!-- CACHE KILL -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -26,35 +32,35 @@ h1{
   color:#555;
 }
 
-/* HEART PAPERS */
+/* HEART PAGES */
 .paper{
-  width:380px;
-  height:360px;
-  background:linear-gradient(145deg,#ff5c8a,#ff85a2);
+  width:420px;
+  height:380px;
+  background:linear-gradient(145deg,#ff4d6d,#ff8fab);
   position:absolute;
   left:50%;
   top:170px;
   transform:translateX(-50%);
-  padding:40px;
-  box-shadow:0 20px 35px rgba(0,0,0,0.25);
+  padding:45px;
+  box-shadow:0 20px 35px rgba(0,0,0,0.3);
   cursor:grab;
   user-select:none;
   touch-action:none;
   z-index:1;
 
-  clip-path: path("M190 40
-    C60 -20,-40 140,190 330
-    C420 140,320 -20,190 40 Z");
+  clip-path:path("M210 40
+    C60 -30,-40 160,210 350
+    C460 160,360 -30,210 40 Z");
 }
 
 .paper p{
   text-align:center;
-  font-size:18px;
+  font-size:19px;
   line-height:1.6;
   color:white;
 }
 
-/* Stack */
+/* stack look */
 .paper:nth-child(3){top:185px;}
 .paper:nth-child(4){top:200px;}
 .paper:nth-child(5){top:215px;}
@@ -67,22 +73,22 @@ h1{
 }
 
 #proposal h2{
-  color:white;
   margin-top:0;
+  color:white;
 }
 
 #proposal button{
-  padding:12px 22px;
-  margin:10px;
-  font-size:16px;
+  padding:12px 26px;
+  margin:12px;
+  font-size:17px;
   border:none;
   border-radius:25px;
-  cursor:pointer;
 }
 
 #yes{
-  background:#fff;
+  background:white;
   color:#ff4d6d;
+  cursor:pointer;
 }
 
 #no{
@@ -97,7 +103,7 @@ h1{
   display:none;
   position:absolute;
   inset:0;
-  background:linear-gradient(120deg,#ff5c8a,#ff85a2);
+  background:linear-gradient(120deg,#ff4d6d,#ff8fab);
   color:white;
   text-align:center;
   padding:40px;
@@ -119,22 +125,22 @@ audio{display:none;}
 <div class="paper">
   <p>
     Dear Bhavya ❤️<br><br>
-    Jab bhi life mushkil lagti hai,<br>
-    tumhari yaad sab easy kar deti hai.
+    Jab bhi zindagi thodi mushkil lagti hai,<br>
+    tumhari yaad sab theek kar deti hai.
   </p>
 </div>
 
 <div class="paper">
   <p>
     Tumhari smile meri sabse pyari aadat hai,<br>
-    aur tum meri sabse khoobsurat feeling 💫
+    aur tum meri sabse strong feeling 💫
   </p>
 </div>
 
 <div class="paper">
   <p>
     Main perfect nahi hoon,<br>
-    par tumhare liye hamesha true rahunga 💞
+    par tumhare liye hamesha loyal rahunga 💞
   </p>
 </div>
 
@@ -152,14 +158,12 @@ audio{display:none;}
     Tum meri zindagi ka wo hissa ho<br>
     jiske bina sab adhoora lagta hai.<br><br>
     Tumhari hansi meri duniya hai,<br>
-    tumhara saath meri taqat hai.<br><br>
-    Har din, har pal,<br>
-    bas tumhara saath chahiye 💕
+    tumhara saath meri taqat hai 💕
   </p>
   <h2>I Love You Bhavya ❤️</h2>
 </div>
 
-<audio id="music" loop>
+<audio id="music" loop autoplay>
   <source src="song-love.mp3" type="audio/mpeg">
 </audio>
 
@@ -168,39 +172,39 @@ const papers = document.querySelectorAll(".paper");
 const music = document.getElementById("music");
 const finalPage = document.getElementById("finalPage");
 
-let dragging = null, offsetX=0, offsetY=0;
+let drag = null, ox=0, oy=0;
 
-papers.forEach(paper=>{
-  paper.addEventListener("mousedown",startDrag);
-  paper.addEventListener("touchstart",startDrag,{passive:false});
+papers.forEach(p=>{
+  p.addEventListener("mousedown",start);
+  p.addEventListener("touchstart",start,{passive:false});
 });
 
-function startDrag(e){
-  dragging = this;
-  dragging.style.zIndex = 10;
-  const point = e.touches ? e.touches[0] : e;
-  offsetX = point.clientX - dragging.offsetLeft;
-  offsetY = point.clientY - dragging.offsetTop;
+function start(e){
+  drag=this;
+  drag.style.zIndex=10;
+  const t=e.touches?e.touches[0]:e;
+  ox=t.clientX-drag.offsetLeft;
+  oy=t.clientY-drag.offsetTop;
   music.play().catch(()=>{});
 }
 
-document.addEventListener("mousemove",moveDrag);
-document.addEventListener("touchmove",moveDrag,{passive:false});
+document.addEventListener("mousemove",move);
+document.addEventListener("touchmove",move,{passive:false});
 
-function moveDrag(e){
-  if(!dragging) return;
-  const point = e.touches ? e.touches[0] : e;
-  dragging.style.left = point.clientX - offsetX + "px";
-  dragging.style.top = point.clientY - offsetY + "px";
+function move(e){
+  if(!drag) return;
+  const t=e.touches?e.touches[0]:e;
+  drag.style.left=t.clientX-ox+"px";
+  drag.style.top=t.clientY-oy+"px";
 }
 
-document.addEventListener("mouseup",()=>dragging=null);
-document.addEventListener("touchend",()=>dragging=null);
+document.addEventListener("mouseup",()=>drag=null);
+document.addEventListener("touchend",()=>drag=null);
 
-/* YES button FIX */
-document.getElementById("yes").addEventListener("click",()=>{
+/* YES WORKING GUARANTEED */
+document.getElementById("yes").onclick=()=>{
   finalPage.style.display="block";
-});
+};
 </script>
 
 </body>
