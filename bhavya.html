@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>For Bhavya ❤️</title>
 
-<!-- CACHE FIX -->
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -52,11 +51,11 @@ h1{
     C470 170,370 -30,215 40 Z");
 }
 
-/* STACK ORDER FIX */
+/* STACK ORDER */
 .paper:nth-of-type(1){ z-index:8; top:170px; }
 .paper:nth-of-type(2){ z-index:7; top:190px; }
 .paper:nth-of-type(3){ z-index:6; top:210px; }
-#proposal{ z-index:1; }
+#proposal{ z-index:1; cursor:default; }
 
 .paper p{
   text-align:center;
@@ -67,7 +66,7 @@ h1{
 
 .paper:active{cursor:grabbing}
 
-/* PROPOSAL PAGE */
+/* PROPOSAL */
 #proposal h2{
   margin-top:0;
   color:white;
@@ -79,12 +78,12 @@ h1{
   font-size:17px;
   border:none;
   border-radius:25px;
+  cursor:pointer;
 }
 
 #yes{
   background:white;
   color:#ff4d6d;
-  cursor:pointer;
 }
 
 #no{
@@ -94,15 +93,16 @@ h1{
   opacity:0.6;
 }
 
-/* FINAL LOVE PAGE */
+/* FINAL PAGE */
 #finalPage{
   display:none;
-  position:absolute;
+  position:fixed;
   inset:0;
   background:linear-gradient(120deg,#ff4d6d,#ff8fab);
   color:white;
   text-align:center;
   padding:40px;
+  z-index:999;
 }
 
 #finalPage h1{
@@ -164,9 +164,10 @@ audio{display:none;}
 </audio>
 
 <script>
-const papers = document.querySelectorAll(".paper");
-const music = document.getElementById("music");
+const papers = document.querySelectorAll(".paper:not(#proposal)");
+const proposal = document.getElementById("proposal");
 const finalPage = document.getElementById("finalPage");
+const music = document.getElementById("music");
 
 let drag=null, ox=0, oy=0;
 
@@ -197,10 +198,11 @@ function move(e){
 document.addEventListener("mouseup",()=>drag=null);
 document.addEventListener("touchend",()=>drag=null);
 
-/* YES → FINAL PAGE */
-document.getElementById("yes").onclick=()=>{
-  finalPage.style.display="block";
-};
+/* YES BUTTON FIX */
+document.getElementById("yes").addEventListener("click",()=>{
+  proposal.style.display="none";
+  finalPage.style.display="flex";
+});
 </script>
 
 </body>
