@@ -1,90 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>For Bhavya ❤️</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
 
-<style>
-  * { box-sizing: border-box; }
+  <!-- 🔥 CACHE BUSTING (PREVIEW ISSUE FIX) -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
 
-  body {
-    margin: 0;
-    height: 100vh;
-    background: linear-gradient(120deg, #ffd6e8, #fff);
-    overflow: hidden;
-    font-family: 'Segoe UI', sans-serif;
-  }
+  <title>For Bhavya ❤️ v3</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  h1 {
-    text-align: center;
-    margin-top: 20px;
-    color: #d63384;
-    user-select: none;
-  }
+  <style>
+    * { box-sizing: border-box; }
 
-  .paper {
-    width: 320px;
-    min-height: 200px;
-    background: #fffdf5;
-    position: absolute;
-    top: 180px;
-    left: 40px;
-    padding: 22px;
-    border-radius: 8px;
-    box-shadow: 0 18px 35px rgba(0,0,0,0.25);
-    cursor: grab;
-    user-select: none;
-    touch-action: none;
-    transition: transform 0.2s ease;
-  }
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(120deg, #ffd6e8, #fff);
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+    }
 
-  .paper:active {
-    cursor: grabbing;
-    transform: scale(1.03);
-  }
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+      color: #d63384;
+      user-select: none;
+    }
 
-  .paper * {
-    pointer-events: none;
-  }
+    .paper {
+      width: 320px;
+      min-height: 200px;
+      background: #fffdf5;
+      position: absolute;
+      top: 180px;
+      left: 40px;
+      padding: 22px;
+      border-radius: 10px;
+      box-shadow: 0 18px 35px rgba(0,0,0,0.25);
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
+      transition: transform 0.2s ease;
+    }
 
-  .hidden {
-    display: none;
-  }
+    .paper:active {
+      cursor: grabbing;
+      transform: scale(1.04);
+    }
 
-  .proposal {
-    text-align: center;
-    font-size: 18px;
-  }
+    .paper * {
+      pointer-events: none;
+    }
 
-  .proposal h2 {
-    color: #d63384;
-  }
+    .hidden {
+      display: none;
+    }
 
-  .buttons {
-    margin-top: 20px;
-  }
+    .proposal {
+      text-align: center;
+      font-size: 18px;
+    }
 
-  .buttons button {
-    padding: 10px 20px;
-    font-size: 16px;
-    margin: 10px;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-  }
+    .proposal h2 {
+      color: #d63384;
+      margin-bottom: 10px;
+    }
 
-  .yes {
-    background: #ff4d88;
-    color: white;
-  }
+    .buttons {
+      margin-top: 20px;
+    }
 
-  .no {
-    background: #ccc;
-  }
+    .buttons button {
+      padding: 10px 22px;
+      font-size: 16px;
+      margin: 10px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+    }
 
-  audio { display: none; }
-</style>
+    .yes {
+      background: #ff4d88;
+      color: #fff;
+    }
+
+    .no {
+      background: #ddd;
+    }
+
+    audio { display: none; }
+  </style>
 </head>
 
 <body>
@@ -95,27 +102,34 @@
 <div class="paper" style="transform: rotate(-2deg);" data-next="paper2">
   Hey Bhavya ❤️<br><br>
   Ek baat kehni thi…<br>
-  Kaafi time se mere dil mein hai.
+  Jo kaafi time se dil mein hai.
 </div>
 
 <!-- PAPER 2 -->
 <div id="paper2" class="paper hidden" style="transform: rotate(1deg);" data-next="paper3">
-  Jab bhi life thodi mushkil hoti hai na…<br><br>
-  Tera naam automatically dimag mein aa jata hai.
+  Jab bhi main thoda sa bhi haarne lagta hoon na…<br><br>
+  Tera khayal mujhe phir se strong bana deta hai.
 </div>
 
 <!-- PAPER 3 -->
-<div id="paper3" class="paper hidden" style="transform: rotate(-1deg);" data-next="proposal">
-  Shayad tumhe idea bhi nahi…<br><br>
-  Par tum meri har khushi ki wajah ho.
+<div id="paper3" class="paper hidden" style="transform: rotate(-1deg);" data-next="paper4">
+  Shayad tumhe andaza bhi nahi…<br><br>
+  Par tum meri zindagi ka sabse khoobsurat hissa ho.
+</div>
+
+<!-- PAPER 4 -->
+<div id="paper4" class="paper hidden" style="transform: rotate(0deg);" data-next="proposal">
+  Har choti badi khushi,<br>
+  har mushkil,<br>
+  har sapna…<br><br>
+  Main sab kuch tumhare saath jeena chahta hoon.
 </div>
 
 <!-- FINAL PROPOSAL -->
-<div id="proposal" class="paper hidden proposal" style="transform: rotate(0deg);">
+<div id="proposal" class="paper hidden proposal">
   <h2>Bhavya 💖</h2>
-  Main tumhare saath<br>
-  har kal, har musibat,<br>
-  har muskaan share karna chahta hoon.<br><br>
+  Tum sirf meri pasand nahi,<br>
+  meri aadat ban chuki ho.<br><br>
 
   <strong>Will you be mine forever? 💍</strong>
 
@@ -125,8 +139,9 @@
   </div>
 </div>
 
+<!-- MUSIC (CACHE BUSTED) -->
 <audio autoplay loop>
-  <source src="song.mp3" type="audio/mpeg">
+  <source src="song.mp3?v=3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -160,8 +175,8 @@
 
   function moveNo(btn) {
     btn.style.position = 'absolute';
-    btn.style.left = Math.random() * 200 + 'px';
-    btn.style.top  = Math.random() * 100 + 'px';
+    btn.style.left = Math.random() * 220 + 'px';
+    btn.style.top  = Math.random() * 120 + 'px';
   }
 
   function yesClicked() {
