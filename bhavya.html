@@ -9,30 +9,9 @@
 body{
   margin:0;
   height:100vh;
-  background:linear-gradient(120deg,#ffd6e8,#fff);
+  background:linear-gradient(120deg,#ffd1dc,#fff0f5);
   overflow:hidden;
   font-family:'Segoe UI',sans-serif;
-}
-
-/* START SCREEN */
-#startScreen{
-  position:fixed;
-  inset:0;
-  background:rgba(255,214,232,0.96);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-}
-#startScreen button{
-  padding:18px 40px;
-  font-size:20px;
-  border:none;
-  border-radius:40px;
-  background:#ff4d6d;
-  color:white;
-  cursor:pointer;
-  box-shadow:0 12px 30px rgba(255,77,109,.45);
 }
 
 h1{
@@ -40,84 +19,92 @@ h1{
   margin-top:15px;
   color:#d63384;
 }
+
 #hint{
   text-align:center;
   font-size:14px;
   color:#555;
 }
 
-/* BIG PINK HEART */
+/* HEART PAPERS */
 .paper{
-  width:460px;
-  height:460px;
-  background:linear-gradient(135deg,#ff5f8f,#ff9acb);
+  width:380px;
+  height:360px;
+  background:linear-gradient(145deg,#ff5c8a,#ff85a2);
   position:absolute;
   left:50%;
-  top:185px;
+  top:170px;
   transform:translateX(-50%);
-  padding:90px 55px;
-  box-shadow:0 25px 50px rgba(255,95,143,0.45);
+  padding:40px;
+  box-shadow:0 20px 35px rgba(0,0,0,0.25);
   cursor:grab;
   user-select:none;
   touch-action:none;
-  color:white;
+  z-index:1;
 
-  clip-path:path(
-    "M230 60
-     C70 -60,-120 180,230 430
-     C580 180,390 -60,230 60 Z"
-  );
-}
-
-.paper::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:radial-gradient(circle at top left,
-    rgba(255,255,255,0.45),transparent 60%);
-  clip-path:inherit;
+  clip-path: path("M190 40
+    C60 -20,-40 140,190 330
+    C420 140,320 -20,190 40 Z");
 }
 
 .paper p{
   text-align:center;
-  font-size:22px;
-  line-height:1.7;
-  font-weight:500;
-  position:relative;
-  z-index:1;
+  font-size:18px;
+  line-height:1.6;
+  color:white;
 }
+
+/* Stack */
+.paper:nth-child(3){top:185px;}
+.paper:nth-child(4){top:200px;}
+.paper:nth-child(5){top:215px;}
 
 .paper:active{cursor:grabbing}
 
-/* BUTTONS */
+/* PROPOSAL PAGE */
+#proposal{
+  z-index:0;
+}
+
+#proposal h2{
+  color:white;
+  margin-top:0;
+}
+
 #proposal button{
-  padding:14px 30px;
-  margin:14px;
-  font-size:18px;
+  padding:12px 22px;
+  margin:10px;
+  font-size:16px;
   border:none;
-  border-radius:35px;
+  border-radius:25px;
   cursor:pointer;
 }
 
 #yes{
-  background:white;
+  background:#fff;
   color:#ff4d6d;
-  font-weight:700;
 }
 
 #no{
-  background:rgba(255,255,255,0.4);
-  color:#777;
-  cursor:not-allowed;
-}
-
-#no:disabled{
+  background:#ffb3c6;
+  color:white;
+  pointer-events:none;
   opacity:0.6;
 }
 
-/* LOVE PAGE */
-#lovePage{
+/* FINAL PAGE */
+#finalPage{
   display:none;
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,#ff5c8a,#ff85a2);
+  color:white;
+  text-align:center;
+  padding:40px;
+}
+
+#finalPage h1{
+  margin-top:60px;
 }
 
 audio{display:none;}
@@ -126,26 +113,21 @@ audio{display:none;}
 
 <body>
 
-<!-- START -->
-<div id="startScreen">
-  <button id="startBtn">Tap to Start ❤️</button>
-</div>
-
 <h1>Drag the hearts 💖</h1>
-<div id="hint">(Ek heart side me rakho, next message milega)</div>
+<div id="hint">(Ek heart hatao, next message milega)</div>
 
 <div class="paper">
   <p>
     Dear Bhavya ❤️<br><br>
-    Jab bhi life thodi mushkil lagti hai,<br>
-    tumhari yaad sab kuch easy kar deti hai.
+    Jab bhi life mushkil lagti hai,<br>
+    tumhari yaad sab easy kar deti hai.
   </p>
 </div>
 
 <div class="paper">
   <p>
-    Tumhari smile meri sabse badi weakness hai,<br>
-    aur tum meri sabse strong feeling ho 💫
+    Tumhari smile meri sabse pyari aadat hai,<br>
+    aur tum meri sabse khoobsurat feeling 💫
   </p>
 </div>
 
@@ -156,26 +138,25 @@ audio{display:none;}
   </p>
 </div>
 
-<!-- PROPOSAL PAGE -->
 <div class="paper" id="proposal">
-  <p>
-    <strong>Happy Propose Day 💍</strong><br><br>
-    Will you be mine forever? ❤️
-  </p>
+  <h2>Happy Propose Day 💘</h2>
+  <p>Will you be mine forever? 💍</p>
   <button id="yes">YES ❤️</button>
-  <button id="no" disabled>NO 🙈</button>
+  <button id="no">NO 🙈</button>
 </div>
 
-<!-- LOVE PAGE -->
-<div class="paper" id="lovePage">
+<div id="finalPage">
+  <h1>My Love 💖</h1>
   <p>
-    Bhavya ❤️<br><br>
-    Tum meri har subah ki muskaan ho,<br>
-    meri har dua ka sabab ho.<br><br>
-    Tumhare saath zindagi jeene ka sapna,<br>
-    mera sabse khoobsurat khwab hai ✨<br><br>
-    <strong>I Love You Bhavya ❤️</strong>
+    Bhavya,<br><br>
+    Tum meri zindagi ka wo hissa ho<br>
+    jiske bina sab adhoora lagta hai.<br><br>
+    Tumhari hansi meri duniya hai,<br>
+    tumhara saath meri taqat hai.<br><br>
+    Har din, har pal,<br>
+    bas tumhara saath chahiye 💕
   </p>
+  <h2>I Love You Bhavya ❤️</h2>
 </div>
 
 <audio id="music" loop>
@@ -183,35 +164,24 @@ audio{display:none;}
 </audio>
 
 <script>
-const papers=[...document.querySelectorAll(".paper")];
-const music=document.getElementById("music");
-const proposal=document.getElementById("proposal");
-const lovePage=document.getElementById("lovePage");
+const papers = document.querySelectorAll(".paper");
+const music = document.getElementById("music");
+const finalPage = document.getElementById("finalPage");
 
-let dragging=null, ox=0, oy=0;
+let dragging = null, offsetX=0, offsetY=0;
 
-/* STACK ORDER */
-papers.forEach((p,i)=>{
-  p.style.zIndex = papers.length - i;
-});
-
-/* START MUSIC */
-document.getElementById("startBtn").onclick=()=>{
-  music.play().catch(()=>{});
-  document.getElementById("startScreen").style.display="none";
-};
-
-/* DRAG */
-papers.forEach(p=>{
-  p.addEventListener("mousedown",startDrag);
-  p.addEventListener("touchstart",startDrag,{passive:false});
+papers.forEach(paper=>{
+  paper.addEventListener("mousedown",startDrag);
+  paper.addEventListener("touchstart",startDrag,{passive:false});
 });
 
 function startDrag(e){
-  dragging=this;
-  const t=e.touches?e.touches[0]:e;
-  ox=t.clientX-dragging.offsetLeft;
-  oy=t.clientY-dragging.offsetTop;
+  dragging = this;
+  dragging.style.zIndex = 10;
+  const point = e.touches ? e.touches[0] : e;
+  offsetX = point.clientX - dragging.offsetLeft;
+  offsetY = point.clientY - dragging.offsetTop;
+  music.play().catch(()=>{});
 }
 
 document.addEventListener("mousemove",moveDrag);
@@ -219,20 +189,18 @@ document.addEventListener("touchmove",moveDrag,{passive:false});
 
 function moveDrag(e){
   if(!dragging) return;
-  const t=e.touches?e.touches[0]:e;
-  dragging.style.left=t.clientX-ox+"px";
-  dragging.style.top=t.clientY-oy+"px";
+  const point = e.touches ? e.touches[0] : e;
+  dragging.style.left = point.clientX - offsetX + "px";
+  dragging.style.top = point.clientY - offsetY + "px";
 }
 
 document.addEventListener("mouseup",()=>dragging=null);
 document.addEventListener("touchend",()=>dragging=null);
 
-/* YES BUTTON → NEXT LOVE PAGE */
-document.getElementById("yes").onclick=()=>{
-  proposal.style.display="none";
-  lovePage.style.display="block";
-  lovePage.style.zIndex=999;
-};
+/* YES button FIX */
+document.getElementById("yes").addEventListener("click",()=>{
+  finalPage.style.display="block";
+});
 </script>
 
 </body>
