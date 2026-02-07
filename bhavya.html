@@ -46,16 +46,16 @@ h1{
   color:#555;
 }
 
-/* 💖 BIG ROMANTIC HEART */
+/* BIG PINK HEART */
 .paper{
-  width:460px;              /* ⬅️ MUCH BIGGER */
+  width:460px;
   height:460px;
   background:linear-gradient(135deg,#ff5f8f,#ff9acb);
   position:absolute;
   left:50%;
   top:185px;
   transform:translateX(-50%);
-  padding:90px 55px;        /* ⬅️ TEXT SPACE */
+  padding:90px 55px;
   box-shadow:0 25px 50px rgba(255,95,143,0.45);
   cursor:grab;
   user-select:none;
@@ -80,7 +80,7 @@ h1{
 
 .paper p{
   text-align:center;
-  font-size:22px;           /* ⬅️ BIGGER TEXT */
+  font-size:22px;
   line-height:1.7;
   font-weight:500;
   position:relative;
@@ -89,7 +89,7 @@ h1{
 
 .paper:active{cursor:grabbing}
 
-/* PROPOSAL BUTTONS */
+/* BUTTONS */
 #proposal button{
   padding:14px 30px;
   margin:14px;
@@ -98,14 +98,26 @@ h1{
   border-radius:35px;
   cursor:pointer;
 }
+
 #yes{
   background:white;
   color:#ff4d6d;
   font-weight:700;
 }
+
 #no{
-  background:rgba(255,255,255,0.7);
-  color:#555;
+  background:rgba(255,255,255,0.4);
+  color:#777;
+  cursor:not-allowed;
+}
+
+#no:disabled{
+  opacity:0.6;
+}
+
+/* LOVE PAGE */
+#lovePage{
+  display:none;
 }
 
 audio{display:none;}
@@ -144,13 +156,26 @@ audio{display:none;}
   </p>
 </div>
 
-<!-- ✅ PROPOSAL LAST -->
+<!-- PROPOSAL PAGE -->
 <div class="paper" id="proposal">
   <p>
-    Will you be mine forever? 💍
+    <strong>Happy Propose Day 💍</strong><br><br>
+    Will you be mine forever? ❤️
   </p>
   <button id="yes">YES ❤️</button>
-  <button id="no">NO 🙈</button>
+  <button id="no" disabled>NO 🙈</button>
+</div>
+
+<!-- LOVE PAGE -->
+<div class="paper" id="lovePage">
+  <p>
+    Bhavya ❤️<br><br>
+    Tum meri har subah ki muskaan ho,<br>
+    meri har dua ka sabab ho.<br><br>
+    Tumhare saath zindagi jeene ka sapna,<br>
+    mera sabse khoobsurat khwab hai ✨<br><br>
+    <strong>I Love You Bhavya ❤️</strong>
+  </p>
 </div>
 
 <audio id="music" loop>
@@ -160,14 +185,17 @@ audio{display:none;}
 <script>
 const papers=[...document.querySelectorAll(".paper")];
 const music=document.getElementById("music");
+const proposal=document.getElementById("proposal");
+const lovePage=document.getElementById("lovePage");
+
 let dragging=null, ox=0, oy=0;
 
-/* 🔒 STACK ORDER — PROPOSAL LAST */
+/* STACK ORDER */
 papers.forEach((p,i)=>{
   p.style.zIndex = papers.length - i;
 });
 
-/* AUDIO START */
+/* START MUSIC */
 document.getElementById("startBtn").onclick=()=>{
   music.play().catch(()=>{});
   document.getElementById("startScreen").style.display="none";
@@ -199,9 +227,12 @@ function moveDrag(e){
 document.addEventListener("mouseup",()=>dragging=null);
 document.addEventListener("touchend",()=>dragging=null);
 
-/* PROPOSAL ACTIONS */
-yes.onclick=()=>alert("She said YES 💖✨");
-no.onclick=()=>alert("Think again 😏❤️");
+/* YES BUTTON → NEXT LOVE PAGE */
+document.getElementById("yes").onclick=()=>{
+  proposal.style.display="none";
+  lovePage.style.display="block";
+  lovePage.style.zIndex=999;
+};
 </script>
 
 </body>
