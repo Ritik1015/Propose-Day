@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Bhavya ❤️</title>
+
+<style>
+body{
+  margin:0;
+  background:#f6f1eb;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:Arial, sans-serif;
+}
+
+.paper{
+  position:absolute;
+  width:85%;
+  max-width:360px;
+  min-height:220px;
+  background:white;
+  padding:25px;
+  border-radius:8px;
+  box-shadow:0 15px 30px rgba(0,0,0,.25);
+  cursor:grab;
+  user-select:none;
+  touch-action:none;
+}
+
+.paper:nth-child(1){transform:rotate(-4deg);}
+.paper:nth-child(2){transform:rotate(3deg);}
+.paper:nth-child(3){transform:rotate(-2deg);}
+.paper:nth-child(4){transform:rotate(2deg);}
+
+#proposal{
+  display:none;
+  text-align:center;
+}
+
+button{
+  padding:12px 24px;
+  border:none;
+  border-radius:25px;
+  font-size:16px;
+  margin:10px;
+}
+
+.yes{background:#ff4d6d;color:white;}
+.no{background:black;color:white;position:absolute;}
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<div class="paper">
+  <h2>Hey Bhavya ❤️</h2>
+  <p>Ek baat kehni thi…</p>
+</div>
+
+<div class="paper">
+  <p>Jab se tum meri zindagi me aayi ho,<br>sab kuch khoobsurat lagne laga hai 🌸</p>
+</div>
+
+<div class="paper">
+  <p>Tumhari muskaan meri sabse badi taqat hai 🫶</p>
+</div>
+
+<div class="paper">
+  <p>Isliye aaj ek sawaal poochna hai 💍</p>
+</div>
+
+<div id="proposal">
+  <h1>Bhavya ❤️</h1>
+  <p>Will you be mine forever?</p>
+  <button class="yes" onclick="yes()">YES 😭</button>
+  <button class="no" id="no">NO 🙃</button>
+</div>
+
+<script>
+const papers = document.querySelectorAll('.paper');
+let index = papers.length - 1;
+
+papers.forEach((paper,i)=>{
+  paper.style.zIndex = papers.length - i;
+
+  let startX, startY, moveX=0, moveY=0;
+  let dragging = false;
+
+  const start = (x,y)=>{
+    if(i!==index) return;
+    dragging = true;
+    startX = x - moveX;
+    startY = y - moveY;
+  };
+
+  const move = (x,y)=>{
+    if(!dragging) return;
+    moveX = x - startX;
+    moveY = y - startY;
+    paper.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${moveX/10}deg)`;
+  };
+
+  const end = ()=>{
+    if(!dragging) return;
+    dragging = false;
+
+    if(Math.abs(moveX) > 120){
+      paper.remove();
+      index--;
+      if(index < 0) showProposal();
+    }else{
+      moveX = moveY = 0;
+      paper.style.transform = '';
+    }
+  };
+
+  // MOUSE
+  paper.addEventListener('mousedown',e=>start(e.clientX,e.clientY));
+  window.addEventListener('mousemove',e=>move(e.clientX,e.clientY));
+  window.addEventListener('mouseup',end);
+
+  // TOUCH
+  paper.addEventListener('touchstart',e=>start(e.touches[0].clientX,e.touches[0].clientY));
+  paper.addEventListener('touchmove',e=>move(e.touches[0].clientX,e.touches[0].clientY));
+  paper.addEventListener('touchend',end);
+});
+
+function showProposal(){
+  document.querySelectorAll('.paper').forEach(p=>p.remove());
+  document.getElementById('proposal').style.display='block';
+  document.getElementById('music').play();
+}
+
+function yes(){
+  document.getElementById('proposal').innerHTML =
+    '<h1>I Love You Bhavya ❤️</h1><p>Happy Propose Day 💐</p>';
+}
+
+const no = document.getElementById('no');
+no.addEventListener('mouseover',()=>{
+  no.style.left=Math.random()*80+'vw';
+  no.style.top=Math.random()*80+'vh';
+});
+</script>
+
+</body>
+</html>
