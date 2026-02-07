@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       height: 100vh;
@@ -18,11 +22,19 @@
       text-align: center;
       margin-top: 20px;
       color: #d63384;
+      user-select: none;
+    }
+
+    #hint {
+      text-align: center;
+      font-size: 14px;
+      color: #555;
+      user-select: none;
     }
 
     #paper {
       width: 300px;
-      height: 200px;
+      min-height: 200px;
       background: #fffdf5;
       position: absolute;
       top: 180px;
@@ -39,17 +51,8 @@
       cursor: grabbing;
     }
 
-    #paper p {
-      font-size: 18px;
-      line-height: 1.4;
-      color: #333;
-    }
-
-    #hint {
-      text-align: center;
-      margin-top: 10px;
-      color: #555;
-      font-size: 14px;
+    #paper * {
+      pointer-events: none; /* 🔥 MOST IMPORTANT LINE */
     }
 
     audio {
@@ -64,58 +67,37 @@
 <div id="hint">(Click & hold, then move)</div>
 
 <div id="paper">
-  <p>
-    Dear Bhavya ❤️<br><br>
-    Har baar jab main muskurata hoon,<br>
-    uski wajah tum hoti ho.<br><br>
-    Will you be mine forever? 💍
-  </p>
+  Dear Bhavya ❤️<br><br>
+  Har baar jab main muskurata hoon,<br>
+  uski wajah tum hoti ho.<br><br>
+  Will you be mine forever? 💍
 </div>
 
-<audio id="music" autoplay loop>
+<audio autoplay loop>
   <source src="song.mp3" type="audio/mpeg">
 </audio>
 
 <script>
   const paper = document.getElementById("paper");
 
-  let dragging = false;
   let offsetX = 0;
   let offsetY = 0;
+  let dragging = false;
 
-  // Mouse (Laptop)
-  paper.addEventListener("mousedown", function (e) {
+  paper.addEventListener("pointerdown", (e) => {
     dragging = true;
+    paper.setPointerCapture(e.pointerId);
     offsetX = e.clientX - paper.offsetLeft;
     offsetY = e.clientY - paper.offsetTop;
   });
 
-  document.addEventListener("mousemove", function (e) {
+  paper.addEventListener("pointermove", (e) => {
     if (!dragging) return;
-    paper.style.left = e.clientX - offsetX + "px";
-    paper.style.top = e.clientY - offsetY + "px";
+    paper.style.left = (e.clientX - offsetX) + "px";
+    paper.style.top  = (e.clientY - offsetY) + "px";
   });
 
-  document.addEventListener("mouseup", function () {
-    dragging = false;
-  });
-
-  // Touch (Mobile)
-  paper.addEventListener("touchstart", function (e) {
-    dragging = true;
-    const touch = e.touches[0];
-    offsetX = touch.clientX - paper.offsetLeft;
-    offsetY = touch.clientY - paper.offsetTop;
-  });
-
-  document.addEventListener("touchmove", function (e) {
-    if (!dragging) return;
-    const touch = e.touches[0];
-    paper.style.left = touch.clientX - offsetX + "px";
-    paper.style.top = touch.clientY - offsetY + "px";
-  });
-
-  document.addEventListener("touchend", function () {
+  paper.addEventListener("pointerup", () => {
     dragging = false;
   });
 </script>
