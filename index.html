@@ -2,18 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
-<!-- CACHE FIX -->
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-
-<title>For Bhavya ❤️ v5</title>
+<title>For Bhavya ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{box-sizing:border-box}
-
 body{
   margin:0;
   height:100vh;
@@ -24,190 +16,137 @@ body{
 
 h1{
   text-align:center;
-  margin-top:20px;
+  margin-top:15px;
   color:#d63384;
-  user-select:none;
 }
 
-/* ❤️ HEART PAPER */
+#hint{
+  text-align:center;
+  font-size:14px;
+  color:#555;
+}
+
+/* PAPER STACK */
 .paper{
-  width:320px;
-  min-height:260px;
+  width:300px;
+  height:300px;
+  background:#fff;
   position:absolute;
-  top:200px;
-  left:60px;
-  padding:40px 30px;
+  left:50%;
+  top:170px;
+  transform:translateX(-50%);
+  padding:35px;
+  box-shadow:0 15px 30px rgba(0,0,0,0.25);
   cursor:grab;
   user-select:none;
   touch-action:none;
-  z-index:5;
+
+  clip-path: path("M150 30
+    C40 -20,-40 100,150 280
+    C340 100,260 -20,150 30 Z");
 }
 
-.paper:active{
-  cursor:grabbing;
-  transform:scale(1.05);
+.paper p{
+  text-align:center;
+  font-size:18px;
+  line-height:1.5;
+  color:#333;
 }
 
-/* HEART SHAPE */
-.paper::before,
-.paper::after{
-  content:"";
-  position:absolute;
-  width:160px;
-  height:160px;
-  background:#fffdf5;
-  border-radius:50%;
-  top:0;
-  left:80px;
-  box-shadow:0 18px 35px rgba(0,0,0,.25);
-  z-index:-1;
-}
+.paper:active{cursor:grabbing}
 
-.paper::after{
-  left:0;
-}
+/* STACK OFFSET */
+.paper:nth-child(3){top:185px;}
+.paper:nth-child(4){top:200px;}
+.paper:nth-child(5){top:215px;}
 
-.paper{
-  background:#fffdf5;
-  transform:rotate(-45deg);
-}
-
-.paper > *{
-  transform:rotate(45deg);
-  pointer-events:none;
-}
-
-/* STACK ORDER */
-.paper[data-index="0"]{z-index:5}
-.paper[data-index="1"]{z-index:4}
-.paper[data-index="2"]{z-index:3}
-.paper[data-index="3"]{z-index:2}
-.paper[data-index="4"]{z-index:1}
-
-/* PROPOSAL CARD */
-.proposal{
-  transform:none;
-  border-radius:16px;
-  padding:30px;
-}
-
-.proposal::before,
-.proposal::after{
-  display:none;
-}
-
-.proposal *{
-  pointer-events:auto;
-}
-
-.buttons{
-  margin-top:20px;
-}
-
-.buttons button{
-  padding:10px 22px;
+#proposal button{
+  padding:10px 18px;
+  margin:10px;
   font-size:16px;
   border:none;
   border-radius:20px;
-  margin:10px;
   cursor:pointer;
 }
 
-.yes{
-  background:#ff4d88;
-  color:#fff;
-}
+#yes{background:#ff4d6d;color:white;}
+#no{background:#adb5bd;color:white;}
 
-.no{
-  background:#ccc;
-}
-
-audio{display:none}
+audio{display:none;}
 </style>
 </head>
 
 <body>
 
-<h1>Drag the hearts 💌</h1>
+<h1>Drag the hearts 💖</h1>
+<div id="hint">(Ek heart hatao, next message milega)</div>
 
-<div class="paper" data-index="0">
-  Hey Bhavya ❤️<br><br>
-  Ek baat kehni thi…<br>
-  jo kaafi time se dil mein hai.
+<div class="paper">
+  <p>Dear Bhavya ❤️<br><br>
+  Jab bhi life thodi mushkil lagti hai,<br>
+  tumhari yaad sab easy kar deti hai.</p>
 </div>
 
-<div class="paper" data-index="1">
-  Jab bhi life mushkil hoti hai na…<br><br>
-  tera naam hi sabse pehle yaad aata hai.
+<div class="paper">
+  <p>Tumhari smile meri weakness hai,<br>
+  aur tum meri sabse strong feeling 💫</p>
 </div>
 
-<div class="paper" data-index="2">
-  Tum meri aadat nahi…<br><br>
-  meri zarurat ban chuki ho.
+<div class="paper">
+  <p>Main perfect nahi hoon,<br>
+  par tumhare liye hamesha true rahunga 💞</p>
 </div>
 
-<div class="paper" data-index="3">
-  Har sapna, har khushi,<br>
-  har future…<br><br>
-  main tumhare saath dekhna chahta hoon.
+<div class="paper" id="proposal">
+  <p>Will you be mine forever? 💍</p>
+  <button id="yes">YES ❤️</button>
+  <button id="no">NO 🙈</button>
 </div>
 
-<div class="paper proposal" data-index="4">
-  <h2>Bhavya 💖</h2>
-  Will you be mine forever? 💍
-
-  <div class="buttons">
-    <button class="yes" onclick="yesClicked()">YES ❤️</button>
-    <button class="no" onclick="moveNo(this)">NO 😢</button>
-  </div>
-</div>
-
-<audio id="music">
-  <source src="song.mp3?v=5" type="audio/mpeg">
+<audio id="music" loop>
+  <source src="song.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-let papers=document.querySelectorAll('.paper');
-let active=null,offX=0,offY=0;
-let musicPlayed=false;
+const papers = document.querySelectorAll(".paper");
+const music = document.getElementById("music");
 
-papers.forEach(p=>{
-  p.addEventListener('pointerdown',e=>{
-    active=p;
-    p.setPointerCapture(e.pointerId);
-    offX=e.clientX-p.offsetLeft;
-    offY=e.clientY-p.offsetTop;
+let dragging = null, offsetX=0, offsetY=0;
 
-    if(!musicPlayed){
-      document.getElementById('music').play();
-      musicPlayed=true;
-    }
-  });
-
-  p.addEventListener('pointermove',e=>{
-    if(!active)return;
-    active.style.left=(e.clientX-offX)+'px';
-    active.style.top=(e.clientY-offY)+'px';
-  });
-
-  p.addEventListener('pointerup',()=>{
-    active=null;
-  });
+papers.forEach(paper=>{
+  paper.addEventListener("mousedown",startDrag);
+  paper.addEventListener("touchstart",startDrag,{passive:false});
 });
 
-function moveNo(btn){
-  btn.style.position='absolute';
-  btn.style.left=Math.random()*200+'px';
-  btn.style.top=Math.random()*120+'px';
+function startDrag(e){
+  dragging = this;
+  const point = e.touches ? e.touches[0] : e;
+  offsetX = point.clientX - dragging.offsetLeft;
+  offsetY = point.clientY - dragging.offsetTop;
+  music.play().catch(()=>{});
 }
 
-function yesClicked(){
-  document.body.innerHTML=`
-    <h1 style="margin-top:40vh;color:#d63384;">
-      She said YES 💍❤️
-    </h1>
-  `;
+document.addEventListener("mousemove",moveDrag);
+document.addEventListener("touchmove",moveDrag,{passive:false});
+
+function moveDrag(e){
+  if(!dragging) return;
+  const point = e.touches ? e.touches[0] : e;
+  dragging.style.left = point.clientX - offsetX + "px";
+  dragging.style.top = point.clientY - offsetY + "px";
 }
+
+document.addEventListener("mouseup",()=>dragging=null);
+document.addEventListener("touchend",()=>dragging=null);
+
+/* Proposal buttons */
+document.getElementById("yes").onclick = ()=>{
+  alert("She said YES 💖✨");
+};
+
+document.getElementById("no").onclick = ()=>{
+  alert("Think again 😏❤️");
+};
 </script>
 
 </body>
