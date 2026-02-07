@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- 🔥 CACHE FIX (IMPORTANT) -->
+<!-- CACHE FIX -->
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For Bhavya ❤️</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Poppins:wght@600&display=swap" rel="stylesheet">
 
 <style>
 body{
@@ -22,7 +22,6 @@ body{
   font-family:'Patrick Hand',cursive;
 }
 
-/* PAPER STYLE */
 .paper{
   position:absolute;
   width:85%;
@@ -30,18 +29,16 @@ body{
   min-height:220px;
   background:#fff;
   padding:25px;
-  box-shadow:0 15px 25px rgba(0,0,0,.25);
   border-radius:6px;
-  top:50%;
+  box-shadow:0 15px 25px rgba(0,0,0,.25);
   left:50%;
+  top:50%;
   transform:translate(-50%,-50%) rotate(var(--r));
-  cursor:grab;
   touch-action:none;
 }
 
 .paper h2{
   font-family:Poppins,sans-serif;
-  margin-bottom:10px;
 }
 
 #proposal{
@@ -49,8 +46,8 @@ body{
   background:linear-gradient(120deg,#ff758c,#ff7eb3);
   color:#fff;
   height:100vh;
-  text-align:center;
   padding:25px;
+  text-align:center;
 }
 
 button{
@@ -64,31 +61,19 @@ button{
 
 .yes{background:#fff;color:#ff4d6d;font-weight:600;}
 .no{background:#000;color:#fff;position:absolute;}
-
-.heart{
-  position:fixed;
-  animation:float 6s linear infinite;
-}
-
-@keyframes float{
-  from{transform:translateY(100vh);}
-  to{transform:translateY(-10vh);}
-}
 </style>
 </head>
 
 <body>
 
-<!-- MUSIC -->
 <audio id="music" loop>
   <source src="song.mp3" type="audio/mpeg">
 </audio>
 
-
 <!-- PAPERS -->
 <div class="paper" style="--r:-4deg">
   <h2>Hey Bhavya ❤️</h2>
-  <p>Ek baat kehni thi…</p>
+  <p>Ek baat kehni thi...</p>
 </div>
 
 <div class="paper" style="--r:3deg">
@@ -100,8 +85,8 @@ button{
 
 <div class="paper" style="--r:-2deg">
   <p>
-    Har khushi tumhare saath better lagti hai,<br>
-    aur har dard me tum yaad aati ho 🫶
+    Tumhari har muskaan meri taqat hai,<br>
+    aur tumhari har yaad meri kamzori 🫶
   </p>
 </div>
 
@@ -111,83 +96,69 @@ button{
   </p>
 </div>
 
-<!-- PROPOSAL PAGE -->
+<!-- PROPOSAL -->
 <div id="proposal">
   <h1>Bhavya ❤️</h1>
-  <p>
-    Tum meri zindagi ka wo hissa ho<br>
-    jiske bina sab adhoora lagta hai 🥹
-  </p>
-  <p style="font-weight:600">Will you be mine forever?</p>
-
-  <button class="yes" onclick="yesClick()">YES 😭❤️</button>
+  <p>Will you be mine forever?</p>
+  <button class="yes" onclick="yes()">YES 😭</button>
   <button class="no" id="no">NO 🙃</button>
 </div>
 
 <script>
-const papers=document.querySelectorAll(".paper");
-let topPaper=papers.length-1;
+const papers=[...document.querySelectorAll('.paper')];
+let current=papers.length-1;
 
-papers.forEach((p,i)=>{
-  p.style.zIndex=papers.length-i;
-  let down=false,sx,sy;
+papers.forEach((paper,i)=>{
+  paper.style.zIndex=papers.length-i;
 
-  p.addEventListener("pointerdown",e=>{
-    if(i!==topPaper) return;
-    down=true;
-    sx=e.clientX; sy=e.clientY;
-    p.setPointerCapture(e.pointerId);
+  let startX=0,startY=0;
+  let moveX=0,moveY=0;
+  let dragging=false;
+
+  paper.addEventListener('touchstart',e=>{
+    if(i!==current) return;
+    dragging=true;
+    startX=e.touches[0].clientX-moveX;
+    startY=e.touches[0].clientY-moveY;
   });
 
-  p.addEventListener("pointermove",e=>{
-    if(!down) return;
-    const dx=e.clientX-sx;
-    const dy=e.clientY-sy;
-    p.style.transform=`translate(${dx}px,${dy}px) rotate(${dx/10}deg)`;
+  paper.addEventListener('touchmove',e=>{
+    if(!dragging) return;
+    moveX=e.touches[0].clientX-startX;
+    moveY=e.touches[0].clientY-startY;
+    paper.style.transform=`translate(${moveX}px,${moveY}px) rotate(${moveX/15}deg)`;
   });
 
-  p.addEventListener("pointerup",e=>{
-    down=false;
-    if(Math.abs(e.clientX-sx)>120){
-      p.remove();
-      topPaper--;
-      if(topPaper<0) showProposal();
+  paper.addEventListener('touchend',()=>{
+    dragging=false;
+    if(Math.abs(moveX)>120){
+      paper.remove();
+      current--;
+      if(current<0) showProposal();
     }else{
-      p.style.transform=`translate(-50%,-50%) rotate(var(--r))`;
+      moveX=0; moveY=0;
+      paper.style.transform=`translate(-50%,-50%) rotate(var(--r))`;
     }
   });
 });
 
 function showProposal(){
-  document.querySelectorAll(".paper").forEach(p=>p.remove());
-  document.getElementById("proposal").style.display="block";
-  document.getElementById("music").play();
-  hearts();
+  document.querySelectorAll('.paper').forEach(p=>p.remove());
+  document.getElementById('proposal').style.display='block';
+  document.getElementById('music').play();
 }
 
-function yesClick(){
-  document.getElementById("proposal").innerHTML=
+function yes(){
+  document.getElementById('proposal').innerHTML=
   `<h1>I Love You Bhavya ❤️</h1>
-   <p>Happy Propose Day 💐<br>You are my forever ♾️</p>`;
+   <p>Happy Propose Day 💐</p>`;
 }
 
-const no=document.getElementById("no");
-no.addEventListener("mouseover",()=>{
-  no.style.left=Math.random()*80+"vw";
-  no.style.top=Math.random()*80+"vh";
+const no=document.getElementById('no');
+no.addEventListener('touchstart',()=>{
+  no.style.left=Math.random()*80+'vw';
+  no.style.top=Math.random()*80+'vh';
 });
-
-function hearts(){
-  setInterval(()=>{
-    const h=document.createElement("div");
-    h.className="heart";
-    h.innerHTML="❤️";
-    h.style.left=Math.random()*100+"vw";
-    h.style.fontSize=(15+Math.random()*20)+"px";
-    document.body.appendChild(h);
-    setTimeout(()=>h.remove(),6000);
-  },300);
-}
 </script>
 
 </body>
