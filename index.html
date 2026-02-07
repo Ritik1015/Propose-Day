@@ -1,76 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>For Bhavya ❤️</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>For Bhavya ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+  * { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      height: 100vh;
-      background: linear-gradient(120deg, #ffd6e8, #fff);
-      overflow: hidden;
-      font-family: 'Segoe UI', sans-serif;
-    }
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(120deg, #ffd6e8, #fff);
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+  }
 
-    h1 {
-      text-align: center;
-      margin-top: 20px;
-      color: #d63384;
-      user-select: none;
-    }
+  h1 {
+    text-align: center;
+    margin-top: 20px;
+    color: #d63384;
+    user-select: none;
+  }
 
-    #hint {
-      text-align: center;
-      font-size: 14px;
-      color: #555;
-      user-select: none;
-    }
+  .paper {
+    width: 320px;
+    min-height: 200px;
+    background: #fffdf5;
+    position: absolute;
+    top: 180px;
+    left: 40px;
+    padding: 22px;
+    border-radius: 8px;
+    box-shadow: 0 18px 35px rgba(0,0,0,0.25);
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+    transition: transform 0.2s ease;
+  }
 
-    #paper {
-      width: 300px;
-      min-height: 200px;
-      background: #fffdf5;
-      position: absolute;
-      top: 180px;
-      left: 40px;
-      padding: 20px;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.25);
-      border-radius: 6px;
-      cursor: grab;
-      user-select: none;
-      touch-action: none;
-    }
+  .paper:active {
+    cursor: grabbing;
+    transform: scale(1.03);
+  }
 
-    #paper:active {
-      cursor: grabbing;
-    }
+  .paper * {
+    pointer-events: none;
+  }
 
-    #paper * {
-      pointer-events: none; /* 🔥 MOST IMPORTANT LINE */
-    }
+  .hidden {
+    display: none;
+  }
 
-    audio {
-      display: none;
-    }
-  </style>
+  .proposal {
+    text-align: center;
+    font-size: 18px;
+  }
+
+  .proposal h2 {
+    color: #d63384;
+  }
+
+  .buttons {
+    margin-top: 20px;
+  }
+
+  .buttons button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 10px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+
+  .yes {
+    background: #ff4d88;
+    color: white;
+  }
+
+  .no {
+    background: #ccc;
+  }
+
+  audio { display: none; }
+</style>
 </head>
 
 <body>
 
-<h1>Drag the paper 💌</h1>
-<div id="hint">(Click & hold, then move)</div>
+<h1>Just drag the papers 💌</h1>
 
-<div id="paper">
-  Dear Bhavya ❤️<br><br>
-  Har baar jab main muskurata hoon,<br>
-  uski wajah tum hoti ho.<br><br>
-  Will you be mine forever? 💍
+<!-- PAPER 1 -->
+<div class="paper" style="transform: rotate(-2deg);" data-next="paper2">
+  Hey Bhavya ❤️<br><br>
+  Ek baat kehni thi…<br>
+  Kaafi time se mere dil mein hai.
+</div>
+
+<!-- PAPER 2 -->
+<div id="paper2" class="paper hidden" style="transform: rotate(1deg);" data-next="paper3">
+  Jab bhi life thodi mushkil hoti hai na…<br><br>
+  Tera naam automatically dimag mein aa jata hai.
+</div>
+
+<!-- PAPER 3 -->
+<div id="paper3" class="paper hidden" style="transform: rotate(-1deg);" data-next="proposal">
+  Shayad tumhe idea bhi nahi…<br><br>
+  Par tum meri har khushi ki wajah ho.
+</div>
+
+<!-- FINAL PROPOSAL -->
+<div id="proposal" class="paper hidden proposal" style="transform: rotate(0deg);">
+  <h2>Bhavya 💖</h2>
+  Main tumhare saath<br>
+  har kal, har musibat,<br>
+  har muskaan share karna chahta hoon.<br><br>
+
+  <strong>Will you be mine forever? 💍</strong>
+
+  <div class="buttons">
+    <button class="yes" onclick="yesClicked()">YES ❤️</button>
+    <button class="no" onclick="moveNo(this)">NO 😢</button>
+  </div>
 </div>
 
 <audio autoplay loop>
@@ -78,28 +130,47 @@
 </audio>
 
 <script>
-  const paper = document.getElementById("paper");
-
+  let activePaper = null;
   let offsetX = 0;
   let offsetY = 0;
-  let dragging = false;
 
-  paper.addEventListener("pointerdown", (e) => {
-    dragging = true;
-    paper.setPointerCapture(e.pointerId);
-    offsetX = e.clientX - paper.offsetLeft;
-    offsetY = e.clientY - paper.offsetTop;
+  document.querySelectorAll('.paper').forEach(paper => {
+    paper.addEventListener('pointerdown', e => {
+      activePaper = paper;
+      paper.setPointerCapture(e.pointerId);
+      offsetX = e.clientX - paper.offsetLeft;
+      offsetY = e.clientY - paper.offsetTop;
+    });
+
+    paper.addEventListener('pointermove', e => {
+      if (!activePaper) return;
+      paper.style.left = (e.clientX - offsetX) + 'px';
+      paper.style.top  = (e.clientY - offsetY) + 'px';
+    });
+
+    paper.addEventListener('pointerup', () => {
+      const next = paper.getAttribute('data-next');
+      if (next) {
+        paper.classList.add('hidden');
+        document.getElementById(next).classList.remove('hidden');
+      }
+      activePaper = null;
+    });
   });
 
-  paper.addEventListener("pointermove", (e) => {
-    if (!dragging) return;
-    paper.style.left = (e.clientX - offsetX) + "px";
-    paper.style.top  = (e.clientY - offsetY) + "px";
-  });
+  function moveNo(btn) {
+    btn.style.position = 'absolute';
+    btn.style.left = Math.random() * 200 + 'px';
+    btn.style.top  = Math.random() * 100 + 'px';
+  }
 
-  paper.addEventListener("pointerup", () => {
-    dragging = false;
-  });
+  function yesClicked() {
+    document.body.innerHTML = `
+      <h1 style="margin-top:40vh;color:#d63384;">
+        She said YES 💍❤️
+      </h1>
+    `;
+  }
 </script>
 
 </body>
