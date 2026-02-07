@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background:#ddd;
+  overflow:hidden;
+}
+.box{
+  width:220px;
+  height:140px;
+  background:#fff;
+  position:absolute;
+  top:120px;
+  left:120px;
+  box-shadow:0 10px 20px rgba(0,0,0,.4);
+  cursor:grab;
+  user-select:none;
+}
+</style>
+</head>
+<body>
+
+<div class="box" id="box">DRAG ME</div>
+
+<script>
+const box = document.getElementById("box");
+let dragging = false;
+let offsetX = 0;
+let offsetY = 0;
+
+box.addEventListener("mousedown", e => {
+  dragging = true;
+  offsetX = e.clientX - box.offsetLeft;
+  offsetY = e.clientY - box.offsetTop;
+});
+
+document.addEventListener("mousemove", e => {
+  if(!dragging) return;
+  box.style.left = (e.clientX - offsetX) + "px";
+  box.style.top  = (e.clientY - offsetY) + "px";
+});
+
+document.addEventListener("mouseup", () => {
+  dragging = false;
+});
+</script>
+
+</body>
+</html>
