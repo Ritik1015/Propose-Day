@@ -2,11 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For Bhavya ❤️ v3</title>
+<title>For Bhavya ❤️ FINAL</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
 
 <style>
 body{
@@ -17,16 +14,28 @@ body{
   font-family:'Segoe UI',sans-serif;
 }
 
-h1{
-  text-align:center;
-  margin-top:15px;
-  color:#d63384;
+h1{text-align:center;color:#d63384;margin-top:15px}
+#hint{text-align:center;font-size:14px;color:#555}
+
+/* START OVERLAY */
+#startScreen{
+  position:fixed;
+  inset:0;
+  background:rgba(255,214,232,0.95);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
 }
 
-#hint{
-  text-align:center;
-  font-size:14px;
-  color:#555;
+#startScreen button{
+  padding:15px 30px;
+  font-size:18px;
+  border:none;
+  border-radius:30px;
+  background:#ff4d6d;
+  color:white;
+  cursor:pointer;
 }
 
 /* HEART PAPER */
@@ -36,7 +45,7 @@ h1{
   background:#fff;
   position:absolute;
   left:50%;
-  top:180px;
+  top:190px;
   transform:translateX(-50%);
   padding:55px 35px;
   box-shadow:0 15px 30px rgba(0,0,0,0.25);
@@ -44,38 +53,16 @@ h1{
   user-select:none;
   touch-action:none;
 
-  clip-path: path("M170 40
-    C40 -30,-60 120,170 320
-    C400 120,300 -30,170 40 Z");
+  clip-path:path("M170 40 C40 -30,-60 120,170 320 C400 120,300 -30,170 40 Z");
 }
 
 .paper p{
   text-align:center;
   font-size:18px;
   line-height:1.5;
-  color:#333;
 }
 
 .paper:active{cursor:grabbing}
-
-/* STACK POSITION + Z-INDEX */
-.paper:nth-child(3){ top:190px; z-index:4; }
-.paper:nth-child(4){ top:205px; z-index:3; }
-.paper:nth-child(5){ top:220px; z-index:2; }
-.paper:nth-child(6){ top:235px; z-index:1; }
-
-/* PROPOSAL BUTTONS */
-#proposal button{
-  padding:10px 20px;
-  margin:10px;
-  font-size:16px;
-  border:none;
-  border-radius:25px;
-  cursor:pointer;
-}
-
-#yes{background:#ff4d6d;color:white;}
-#no{background:#adb5bd;color:white;}
 
 audio{display:none;}
 </style>
@@ -83,12 +70,16 @@ audio{display:none;}
 
 <body>
 
+<div id="startScreen">
+  <button id="startBtn">Tap to Start ❤️</button>
+</div>
+
 <h1>Drag the hearts 💖</h1>
 <div id="hint">(Ek heart hatao, next message milega)</div>
 
 <div class="paper">
   <p>Dear Bhavya ❤️<br><br>
-  Jab bhi life thodi mushkil lagti hai,<br>
+  Jab bhi life mushkil lagti hai,<br>
   tumhari yaad sab easy kar deti hai.</p>
 </div>
 
@@ -102,7 +93,6 @@ audio{display:none;}
   par tumhare liye hamesha true rahunga 💞</p>
 </div>
 
-<!-- PROPOSAL LAST -->
 <div class="paper" id="proposal">
   <p>Will you be mine forever? 💍</p>
   <button id="yes">YES ❤️</button>
@@ -110,64 +100,54 @@ audio{display:none;}
 </div>
 
 <audio id="music" loop>
-  <source src="song-love.mp3?v=3" type="audio/mpeg">
+  <source src="song-love.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-const papers = document.querySelectorAll(".paper");
-const music = document.getElementById("music");
+const papers=[...document.querySelectorAll(".paper")];
+const music=document.getElementById("music");
+let dragging=null,ox=0,oy=0;
 
-let dragging=null, offsetX=0, offsetY=0;
-let musicUnlocked=false;
-
-/* UNLOCK AUDIO ON FIRST TOUCH / CLICK */
-document.body.addEventListener("click",()=>{
-  if(!musicUnlocked){
-    music.muted=false;
-    music.play().catch(()=>{});
-    musicUnlocked=true;
-  }
-},{once:true});
-
-papers.forEach(paper=>{
-  paper.addEventListener("mousedown",startDrag);
-  paper.addEventListener("touchstart",startDrag,{passive:false});
+/* STACK ORDER FIX */
+papers.forEach((p,i)=>{
+  p.style.zIndex = papers.length - i;
 });
 
-function startDrag(e){
-  dragging=this;
-  const point=e.touches?e.touches[0]:e;
-  offsetX=point.clientX-dragging.offsetLeft;
-  offsetY=point.clientY-dragging.offsetTop;
+/* AUDIO UNLOCK */
+document.getElementById("startBtn").onclick=()=>{
+  music.play();
+  document.getElementById("startScreen").style.display="none";
+};
 
-  if(!musicUnlocked){
-    music.muted=false;
-    music.play().catch(()=>{});
-    musicUnlocked=true;
-  }
+/* DRAG */
+papers.forEach(p=>{
+  p.addEventListener("mousedown",start);
+  p.addEventListener("touchstart",start,{passive:false});
+});
+
+function start(e){
+  dragging=this;
+  const t=e.touches?e.touches[0]:e;
+  ox=t.clientX-dragging.offsetLeft;
+  oy=t.clientY-dragging.offsetTop;
 }
 
-document.addEventListener("mousemove",moveDrag);
-document.addEventListener("touchmove",moveDrag,{passive:false});
+document.addEventListener("mousemove",move);
+document.addEventListener("touchmove",move,{passive:false});
 
-function moveDrag(e){
+function move(e){
   if(!dragging) return;
-  const point=e.touches?e.touches[0]:e;
-  dragging.style.left=point.clientX-offsetX+"px";
-  dragging.style.top=point.clientY-offsetY+"px";
+  const t=e.touches?e.touches[0]:e;
+  dragging.style.left=t.clientX-ox+"px";
+  dragging.style.top=t.clientY-oy+"px";
 }
 
 document.addEventListener("mouseup",()=>dragging=null);
 document.addEventListener("touchend",()=>dragging=null);
 
-/* PROPOSAL ACTIONS */
-document.getElementById("yes").onclick=()=>{
-  alert("She said YES 💖✨");
-};
-
-document.getElementById("no").onclick=()=>{
-  alert("Think again 😏❤️");
-};
+/* BUTTONS */
+yes.onclick=()=>alert("She said YES 💖✨");
+no.onclick=()=>alert("Think again 😏❤️");
 </script>
 
 </body>
