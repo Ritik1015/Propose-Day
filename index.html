@@ -2,43 +2,52 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For My Bhavya ❤️</title>
+<title>For Bhavya ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
-
 body{
-  background: linear-gradient(120deg,#ff758c,#ff7eb3);
+  margin:0;
+  background:#f6f1eb;
   height:100vh;
   overflow:hidden;
-  color:#fff;
-  text-align:center;
+  font-family:'Patrick Hand',cursive;
 }
 
-.page{
+/* ---------- PAPER ---------- */
+.paper{
   position:absolute;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
+  width:85%;
+  max-width:360px;
+  min-height:220px;
+  background:#fff;
+  padding:25px;
+  box-shadow:0 15px 25px rgba(0,0,0,.25);
+  border-radius:6px;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) rotate(var(--r));
+  cursor:grab;
+  touch-action:none;
+}
+
+.paper h2{
+  font-family:Poppins,sans-serif;
+  margin-bottom:10px;
+}
+
+.hidden{display:none}
+
+/* ---------- PAGE 2 ---------- */
+#proposal{
+  display:none;
+  background:linear-gradient(120deg,#ff758c,#ff7eb3);
+  color:#fff;
+  height:100vh;
+  text-align:center;
   padding:20px;
-}
-
-.hidden{display:none;}
-
-h1{
-  font-family:'Great Vibes',cursive;
-  font-size:3rem;
-  margin-bottom:15px;
-}
-
-p{
-  font-size:1.1rem;
-  margin-bottom:20px;
 }
 
 button{
@@ -46,28 +55,16 @@ button{
   border:none;
   border-radius:30px;
   font-size:1rem;
-  cursor:pointer;
   margin:10px;
+  cursor:pointer;
 }
 
-.yes{
-  background:#fff;
-  color:#ff4d6d;
-  font-weight:600;
-}
-
-.no{
-  background:#000;
-  color:#fff;
-  position:absolute;
-}
+.yes{background:#fff;color:#ff4d6d;font-weight:600;}
+.no{background:#000;color:#fff;position:absolute;}
 
 .heart{
   position:fixed;
-  color:#fff;
   animation:float 6s linear infinite;
-  font-size:20px;
-  opacity:.7;
 }
 
 @keyframes float{
@@ -81,69 +78,80 @@ button{
 
 <!-- MUSIC -->
 <audio id="music" loop>
-  <source src="https://dl.dropboxusercontent.com/scl/fi/2d6m8x3a6l9x/romantic.mp3" type="audio/mpeg">
+<source src="https://dl.dropboxusercontent.com/scl/fi/2d6m8x3a6l9x/romantic.mp3" type="audio/mpeg">
 </audio>
 
-<!-- PAGE 1 -->
-<div class="page" id="page1">
-  <h1>Hey Bhavya 💕</h1>
-  <p>I made something special…<br>Just for you 🥹</p>
-  <button class="yes" onclick="start()">Tap Here 💖</button>
+<!-- PAPERS -->
+<div class="paper" style="--r:-4deg">
+<h2>Hey Bhavya ❤️</h2>
+<p>Ek baat kehni thi…</p>
 </div>
 
-<!-- PAGE 2 -->
-<div class="page hidden" id="page2">
-  <h1>Bhavya ❤️</h1>
-  <p>
-    From random talks to endless memories…<br>
-    You became my favorite chapter 🫶
-  </p>
-
-  <p style="font-weight:600">Will you be mine forever? 💍</p>
-
-  <button class="yes" onclick="yes()">YES 😭❤️</button>
-  <button class="no" id="no">NO 🙃</button>
+<div class="paper" style="--r:3deg">
+<p>
+Jab se tum meri zindagi me aayi ho,<br>
+sab kuch thoda zyada khoobsurat lagne laga hai 🌸
+</p>
 </div>
 
-<!-- PAGE 3 -->
-<div class="page hidden" id="page3">
-  <h1>I knew it 😌❤️</h1>
-  <p>
-    You just made me the happiest person alive 🥹<br><br>
-    Happy Propose Day, my Bhavya 💐<br>
-    I Love You ∞
-  </p>
+<div class="paper" style="--r:-2deg">
+<p>
+Har chhoti baat me tum yaad aati ho,<br>
+aur har khushi tumhare saath better lagti hai 🫶
+</p>
+</div>
+
+<div class="paper" style="--r:2deg">
+<p>
+Isliye aaj… ek sawaal poochna hai 💍
+</p>
 </div>
 
 <script>
-const music = document.getElementById("music");
-const noBtn = document.getElementById("no");
+const papers = document.querySelectorAll(".paper");
+let topPaper = papers.length-1;
 
-function start(){
-  document.getElementById("page1").classList.add("hidden");
-  document.getElementById("page2").classList.remove("hidden");
-  music.play();
+papers.forEach((p,i)=>{
+  p.style.zIndex = papers.length - i;
+
+  let isDown=false, sx, sy;
+
+  p.addEventListener("pointerdown",e=>{
+    if(i!==topPaper) return;
+    isDown=true;
+    sx=e.clientX; sy=e.clientY;
+    p.setPointerCapture(e.pointerId);
+  });
+
+  p.addEventListener("pointermove",e=>{
+    if(!isDown) return;
+    const dx=e.clientX-sx;
+    const dy=e.clientY-sy;
+    p.style.transform=`translate(${dx}px,${dy}px) rotate(${dx/10}deg)`;
+  });
+
+  p.addEventListener("pointerup",()=>{
+    isDown=false;
+    if(Math.abs(event.clientX-sx)>120){
+      p.remove();
+      topPaper--;
+      if(topPaper<0) showProposal();
+    }else{
+      p.style.transform=`translate(-50%,-50%) rotate(var(--r))`;
+    }
+  });
+});
+
+function showProposal(){
+  document.body.innerHTML=document.getElementById("proposal").outerHTML;
+  document.getElementById("proposal").style.display="block";
+  document.getElementById("music").play();
   hearts();
-}
-
-function yes(){
-  document.getElementById("page2").classList.add("hidden");
-  document.getElementById("page3").classList.remove("hidden");
-}
-
-noBtn.addEventListener("mouseover",move);
-noBtn.addEventListener("click",move);
-
-function move(){
-  const x = Math.random()*(window.innerWidth-100);
-  const y = Math.random()*(window.innerHeight-50);
-  noBtn.style.left = x+"px";
-  noBtn.style.top = y+"px";
 }
 
 function hearts(){
   setInterval(()=>{
-    const h = document.createElement("div");
+    const h=document.createElement("div");
     h.className="heart";
     h.innerHTML="❤️";
     h.style.left=Math.random()*100+"vw";
@@ -152,6 +160,27 @@ function hearts(){
     setTimeout(()=>h.remove(),6000);
   },300);
 }
+</script>
+
+<!-- PROPOSAL PAGE -->
+<div id="proposal">
+  <h1>Bhavya ❤️</h1>
+  <p>
+    Tum meri zindagi ka wo hissa ho<br>
+    jiske bina sab adhoora lagta hai 🥹
+  </p>
+  <p style="font-weight:600">Will you be mine forever?</p>
+
+  <button class="yes" onclick="this.parentElement.innerHTML='<h1>I Love You Bhavya ❤️</h1><p>Happy Propose Day 💐</p>'">YES 😭</button>
+  <button class="no" id="no">NO 🙃</button>
+</div>
+
+<script>
+const no=document.getElementById("no");
+no?.addEventListener("mouseover",()=>{
+  no.style.left=Math.random()*80+"vw";
+  no.style.top=Math.random()*80+"vh";
+});
 </script>
 
 </body>
